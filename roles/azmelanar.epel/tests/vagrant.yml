@@ -1,0 +1,11 @@
+---
+- hosts: all
+  remote_user: vagrant
+  sudo: true
+  pre_tasks:
+    - name: update cache for debian systems
+      apt: update_cache=yes
+      when: ansible_os_family=='Debian'
+
+  roles:
+    - { role: ansible-epel }

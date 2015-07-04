@@ -14,13 +14,10 @@
       with_items:
         - [git, zsh, tree, memcached, gcc, wget, tar, patch, gcc-c++, bison, tmux]
 
-    - name: vim7.4にする
-      include: roles/genzouw.vim7_4/tasks/main.yml
-      vars:
-        vim74_configure_options: '--with-local-dir=/usr --enable-multibyte --enable-tclinterp --disable-darwin --disable-xsmp --disable-netbeans --disable-gtktest --disable-gpm --disable-selinux --without-gnome'
-        vim74_srcdir: '/usr/local/src'
-        vim74_bindir: '/usr/bin'
-
-    - include: roles/dotenv_init/tasks/main.yml
+    - include: tasks/dotenv_init.yml
       sudo: no
+
+  roles:
+    - azmelanar.python
+    - genzouw.vim7_4
 
