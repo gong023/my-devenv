@@ -3,7 +3,24 @@
   vars:
     app_root: /vagrant
     login_user: vagrant
+    home: /home/vagrant
 
   tasks:
-    - include: roles/zsh_setup/tasks/main.yml
+    - name: tmux用RPM取得
+      yum: name="http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm"
+
+    - name: 便利ツールのインストール
+      yum: name={{ item }}
+      with_items:
+        - [git, zsh, tree, memcached, gcc, wget, tar, patch, gcc-c++, bison, tmux]
+
+    - name: vim7.4にする
+      include: roles/genzouw.vim7_4/tasks/main.yml
+      vars:
+        vim74_configure_options: '--with-local-dir=/usr --enable-multibyte --enable-tclinterp --disable-darwin --disable-xsmp --disable-netbeans --disable-gtktest --disable-gpm --disable-selinux --without-gnome'
+        vim74_srcdir: '/usr/local/src'
+        vim74_bindir: '/usr/bin'
+
+    - include: roles/dotenv_init/tasks/main.yml
+      sudo: no
 

@@ -1,5 +1,0 @@
-- name: zshインストール
-  yum: name=zsh
-
-- name: デフォルトをzshに
-  user: name={{ login_user }} shell=/bin/zsh

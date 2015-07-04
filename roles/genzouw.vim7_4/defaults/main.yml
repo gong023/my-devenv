@@ -1,0 +1,4 @@
+---
+vim74_configure_options: '--with-local-dir=/usr --enable-multibyte --enable-tclinterp --disable-darwin --disable-xsmp --disable-netbeans --disable-gtktest --disable-gpm --disable-selinux --without-gnome'
+vim74_srcdir: '/usr/local/src'
+vim74_bindir: '/usr/local/bin'

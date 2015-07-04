@@ -1,0 +1,17 @@
+- git: repo=https://github.com/gong023/dotfiles.git dest={{ home }}/dotfiles
+
+- name: シンボリックリンクを展開
+  file: src={{ home }}/dotfiles/{{ item.src }} dest={{ home }}/{{ item.dest }} state=link
+  with_items:
+    - { dest: '.gemrc', src: '.gemrc' }
+    - { dest: '.gitconfig', src: '.gitconfig' }
+    - { dest: '.gitignore', src: '.gitignore' }
+    - { dest: '.gitmodules', src: '.gitmodules' }
+    - { dest: '.tmux.conf', src: '.tmux.conf' }
+    - { dest: '.vimrc', src: '.vimrc' }
+    - { dest: '.zshrc', src: '.zshrc_vagrant' }
+    - { dest: '.vim', src: '.vim' }
+    - { dest: '.oh-my-zsh', src: 'oh-my-zsh' }
+
+- name: デフォルトをzshに
+  user: name={{ login_user }} shell=/bin/zsh
