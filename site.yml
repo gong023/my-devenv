@@ -1,0 +1,9 @@
+- hosts: all
+  sudo: yes
+  vars:
+    app_root: /vagrant
+    login_user: vagrant
+
+  tasks:
+    - include: roles/zsh_setup/tasks/main.yml
+
