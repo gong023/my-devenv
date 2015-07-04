@@ -20,4 +20,5 @@
   roles:
     - azmelanar.python
     - genzouw.vim7_4
+    - jfredee.galaxy-rbenv-ruby
 
