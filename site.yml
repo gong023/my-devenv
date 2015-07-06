@@ -12,12 +12,16 @@
     - name: 便利ツールのインストール
       yum: name={{ item }}
       with_items:
-        - [git, zsh, tree, memcached, gcc, wget, tar, patch, gcc-c++, bison, tmux]
+        - [zsh, tree, memcached, gcc, wget, tar, patch, gcc-c++, bison, tmux]
+
+    - name: デフォルトをzshに
+      user: name={{ login_user }} shell=/bin/zsh
 
     - include: tasks/dotenv_init.yml
       sudo: no
 
   roles:
+    - common
     - azmelanar.python
     - genzouw.vim7_4
     - jfredee.galaxy-rbenv-ruby

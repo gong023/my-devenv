@@ -13,5 +13,3 @@
     - { dest: '.vim', src: '.vim' }
     - { dest: '.oh-my-zsh', src: 'oh-my-zsh' }
 
-- name: デフォルトをzshに
-  user: name={{ login_user }} shell=/bin/zsh
