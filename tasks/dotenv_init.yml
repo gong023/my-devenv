@@ -13,3 +13,7 @@
     - { dest: '.vim', src: '.vim' }
     - { dest: '.oh-my-zsh', src: 'oh-my-zsh' }
 
+- command: make
+  args:
+    chdir: "{{ home }}/.vim/bundle/vimproc/"
+  ignore_errors: yes
