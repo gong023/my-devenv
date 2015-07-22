@@ -20,6 +20,8 @@
     - include: tasks/dotenv_init.yml
       sudo: no
 
+    - include: tasks/install_rust.yml
+
   roles:
     - common
     - azmelanar.python

@@ -1,0 +1,13 @@
+- get_url: url=http://static.rust-lang.org/rustup.sh dest=/tmp/rustup.sh validate_certs=no
+
+- file: path=/tmp/rustup.sh mode=0777
+
+- shell: /tmp/rustup.sh --yes
+  args:
+    creates: /usr/local/bin/rustc
+  sudo: yes
+
+- copy: src="../files/user-local-lib.conf" dest=/etc/ld.so.conf.d/user-local-lib.conf
+
+- command: ldconfig
+  sudo: yes
