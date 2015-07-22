@@ -3,7 +3,9 @@
 
 - yum: name="nginx"
 
-- file: path="/var/www/html" state=directory owner={{ login_user }} mode=0777
+- file: path="/var/www/html" state=directory group={{ login_user }} owner={{ login_user }} mode=0777
+
+- copy: src="../files/phpinfo.php" dest="/var/www/html/phpinfo.php"
 
 - copy: src="../files/default.conf" dest=/etc/nginx/conf.d/default.conf
 

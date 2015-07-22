@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: xcezx
+  description: build and install mysql
+  license: BSD
+  min_ansible_version: 1.2
+  platforms:
+    - name: EL
+      versions:
+        - 6
+  categories:
+    - database
+dependencies: []

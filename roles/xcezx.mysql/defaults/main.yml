@@ -1,0 +1,73 @@
+mysql_group: mysql
+mysql_user: mysql
+
+mysql_build_checkout_dest: "/usr/local/src/mysql-build"
+mysql_build_version: "master"
+
+mysql_version: 5.6.21
+mysql_plugin: ""
+mysql_basedir: "/opt/mysql-{{ mysql_version }}"
+mysql_datadir: "{{ mysql_basedir }}/data"
+mysql_port: 3306
+mysql_rc_script: mysqld
+
+mysql_root_password: "mylocal"
+
+mysql_config:
+  - { section: "mysqld", option: "basedir", value: "{{ mysql_basedir }}" }
+  - { section: "mysqld", option: "datadir", value: "{{ mysql_datadir }}" }
+  - { section: "mysqld", option: "port", value: "{{ mysql_port }}" }
+  - { section: "mysqld", option: "pid-file", value: "{{ mysql_basedir }}/mysqld.pid" }
+  - { section: "mysqld", option: "socket", value: "{{ mysql_basedir }}/mysqld.sock" }
+  - { section: "mysqld", option: "skip_external_locking", value: "ON" }
+  - { section: "mysqld", option: "key_buffer_size", value: "32M" }
+  - { section: "mysqld", option: "max_allowed_packet", value: "8M" }
+  - { section: "mysqld", option: "table_open_cache", value: "256" }
+  - { section: "mysqld", option: "max_connections", value: "1024" }
+  - { section: "mysqld", option: "max_connect_errors", value: "10000" }
+  - { section: "mysqld", option: "sort_buffer_size", value: "1M" }
+  - { section: "mysqld", option: "read_buffer_size", value: "1M" }
+  - { section: "mysqld", option: "myisam_sort_buffer_size", value: "1M" }
+  - { section: "mysqld", option: "thread_cache_size", value: "256" }
+  - { section: "mysqld", option: "query_cache_size", value: "0" }
+  - { section: "mysqld", option: "query_cache_type", value: "0" }
+  - { section: "mysqld", option: "tmp_table_size", value: "64M" }
+  - { section: "mysqld", option: "max_heap_table_size", value: "64M" }
+  - { section: "mysqld", option: "skip_name_resolve", value: "ON" }
+  - { section: "mysqld", option: "character_set_server", value: "utf8" }
+  - { section: "mysqld", option: "default_storage_engine", value: "InnoDB" }
+  - { section: "mysqld", option: "explicit_defaults_for_timestamp", value: "ON" }
+  - { section: "mysqld", option: "sql_mode", value: "STRICT_ALL_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE" }
+  - { section: "mysqld", option: "slow_query_log", value: "ON" }
+  - { section: "mysqld", option: "long_query_time", value: "1" }
+  - { section: "mysqld", option: "log-slow-slave-statements", value: "ON" }
+
+  - { section: "mysqld", option: "server-id", value: "1" }
+
+  - { section: "mysqld", option: "innodb_strict_mode", value: "ON" }
+  - { section: "mysqld", option: "innodb_data_file_path", value: "ibdata1:10M:autoextend" }
+  - { section: "mysqld", option: "innodb_data_home_dir", value: "{{ mysql_datadir }}" }
+  - { section: "mysqld", option: "innodb_file_format", value: "Barracuda" }
+  - { section: "mysqld", option: "innodb_file_per_table", value: "ON" }
+  - { section: "mysqld", option: "innodb_buffer_pool_size", value: "128M" }
+  - { section: "mysqld", option: "innodb_buffer_pool_instances", value: "1" }
+  - { section: "mysqld", option: "innodb_write_io_threads", value: "2" }
+  - { section: "mysqld", option: "innodb_read_io_threads", value: "2" }
+  - { section: "mysqld", option: "innodb_thread_concurrency", value: "0" }
+  - { section: "mysqld", option: "innodb_flush_log_at_trx_commit", value: "2" }
+  - { section: "mysqld", option: "innodb_log_file_size", value: "16M" }
+  - { section: "mysqld", option: "innodb_log_buffer_size", value: "8M" }
+  - { section: "mysqld", option: "innodb_log_files_in_group", value: "2" }
+  - { section: "mysqld", option: "innodb_flush_method", value: "O_DIRECT" }
+  - { section: "mysqld", option: "innodb_lock_wait_timeout", value: "120" }
+  - { section: "mysqld", option: "innodb_buffer_pool_load_at_startup", value: 1 }
+  - { section: "mysqld", option: "innodb_buffer_pool_dump-at_shutdown", value: 1 }
+  - { section: "mysqld", option: "innodb_checksum_algorithm", value: "CRC32" }
+  - { section: "mysqld", option: "innodb_io_capacity", value: "200" }
+  - { section: "mysqld", option: "innodb_large_prefix", value: "1" }
+  - { section: "mysqld", option: "innodb_print_all_deadlocks", value: "1" }
+
+  - { section: "client", option: "port", value: "{{ mysql_port }}" }
+  - { section: "client", option: "socket", value: "{{ mysql_basedir }}/mysqld.sock" }
+
+mysql_append_config: []

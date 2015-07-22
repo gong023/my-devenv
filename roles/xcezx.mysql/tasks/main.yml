@@ -1,0 +1,164 @@
+- name: absent /etc/my.cnf
+  sudo: yes
+  file:
+    path: /etc/my.cnf
+    state: absent
+
+- name: install packages
+  sudo: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - "@Development tools"
+    - cmake
+
+- name: create mysql group
+  sudo: yes
+  group:
+    name: "{{ mysql_group }}"
+    system: yes
+    state: present
+
+- name: create mysql user
+  sudo: yes
+  user:
+    name: "{{ mysql_user }}"
+    group: "{{ mysql_group }}"
+    createhome: no
+    system: yes
+    state: present
+
+- name: create mysql directory
+  sudo: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ mysql_user }}"
+    group: "{{ mysql_group }}"
+    mode: 0755
+  with_items:
+    - "{{ mysql_basedir }}"
+    - "{{ mysql_datadir }}"
+
+- name: clone mysql-build
+  sudo: yes
+  git:
+    repo: https://github.com/kamipo/mysql-build.git
+    dest: "{{ mysql_build_checkout_dest }}"
+    version: "{{ mysql_build_version }}"
+    accept_hostkey: yes
+
+- name: build mysql
+  sudo: yes
+  command: |
+    {{ mysql_build_checkout_dest }}/bin/mysql-build {{ mysql_version }} {{ mysql_basedir }} {{ mysql_plugin }}
+    creates={{ mysql_basedir }}/README
+
+- name: fix directory permission
+  sudo: yes
+  file:
+    path: "{{ item }}"
+    owner: "{{ mysql_user }}"
+    group: "{{ mysql_group }}"
+    recurse: yes
+    state: directory
+  with_items:
+    - "{{ mysql_basedir }}"
+    - "{{ mysql_datadir }}"
+
+- name: link rc script
+  sudo: yes
+  file:
+    src: "{{ mysql_basedir }}/support-files/mysql.server"
+    dest: "/etc/init.d/{{ mysql_rc_script }}"
+    state: link
+
+- name: create {{ mysql_basedir }}/etc directory
+  sudo: yes
+  file:
+    path: "{{ mysql_basedir }}/etc"
+    state: directory
+
+- name: configure {{ mysql_basedir }}/etc/my.cnf
+  sudo: yes
+  ini_file:
+    dest: "{{ mysql_basedir }}/etc/my.cnf"
+    option: "{{ item.option }}"
+    section: "{{ item.section }}"
+    value: "{{ item.value }}"
+  with_items:
+    - "{{ mysql_config }}"
+    - "{{ mysql_append_config }}"
+
+- name: ensure stopped service
+  sudo: yes
+  service:
+    name: "{{ mysql_rc_script }}"
+    state: stopped
+  ignore_errors: yes
+
+- name: run mysql_install_db
+  sudo: yes
+  command: |
+    ./scripts/mysql_install_db --user={{ mysql_user }}
+    creates={{ mysql_basedir }}/my-new.cnf
+    chdir={{ mysql_basedir }}
+
+- name: ensure started service
+  sudo: yes
+  service:
+    name: "{{ mysql_rc_script }}"
+    enabled: yes
+    state: started
+
+- name: check run mysql_secure_installation
+  command: ls {{ mysql_basedir }}/.mysql_secure_installation.log
+  ignore_errors: yes
+  register: run_mysql_secure_installation
+
+- name: link /tmp/mysql.sock
+  file:
+    src: "{{ mysql_basedir }}/mysqld.sock"
+    dest: "/tmp/mysql.sock"
+    state: link
+  when: run_mysql_secure_installation | failed
+
+- name: create mysql_secure_installation_input
+  copy:
+    dest: "{{ mysql_basedir }}/.mysql_secure_installation_input"
+    content: |+
+      
+      Y
+      {{ mysql_root_password }}
+      {{ mysql_root_password }}
+      Y
+      Y
+      Y
+      Y
+      
+  when: run_mysql_secure_installation | failed
+
+- name: run mysql_secure_installation
+  sudo: yes
+  sudo_user: "{{ mysql_user }}"
+  shell: |
+    cat {{ mysql_basedir }}/.mysql_secure_installation_input | {{ mysql_basedir }}/bin/mysql_secure_installation | tee {{ mysql_basedir }}/.mysql_secure_installation.log
+    chdir={{ mysql_basedir }}
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ mysql_basedir }}/bin"
+  when: run_mysql_secure_installation | failed
+
+- name: absent mysql_secure_installation_input
+  file:
+    path: "{{ mysql_basedir }}/.mysql_secure_installation_input"
+    state: absent
+  when: run_mysql_secure_installation | failed
+
+- name: unlink /tmp/mysql.sock
+  file:
+    src: "{{ mysql_basedir }}/mysqld.sock"
+    dest: "/tmp/mysql.sock"
+    state: absent
+  when: run_mysql_secure_installation | failed
