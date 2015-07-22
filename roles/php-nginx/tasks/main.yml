@@ -27,3 +27,6 @@
 
 - command: "/etc/init.d/iptables stop"
   ignore_errors: yes
+
+- command: "/etc/init.d/ip6tables stop"
+  ignore_errors: yes
