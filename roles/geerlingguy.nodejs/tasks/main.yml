@@ -1,0 +1,10 @@
+---
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: "Node: Install forever (to run Node.js apps)."
+  npm: name=forever global=yes state=latest
+  when: nodejs_forever

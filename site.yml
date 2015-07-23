@@ -30,3 +30,4 @@
     - php-nginx
     - xcezx.mysql
     - joshualund.golang
+    - geerlingguy.nodejs
