@@ -18,6 +18,8 @@
     - php56w-fpm
     - php56w-mcrypt
     - php56w-pdo
+    - php56w-pecl-xdebug
+    - php56w-phpdbg
 
 - file: path="/var/log/php-fpm/error.log" state=touch mode=0777
 
@@ -32,3 +34,15 @@
 
 - command: "/etc/init.d/ip6tables stop"
   ignore_errors: yes
+
+- get_url: url=http://getcomposer.org/installer dest=/tmp/composer_install.sh validate_certs=no
+
+- file: path=/tmp/composer_install.sh mode=0777
+
+- shell: /tmp/composer_install.sh --install-dir=/usr/local/bin/
+  args:
+    creates: /usr/local/bin/composer
+
+- command: "mv /usr/local/bin/composer.phar /usr/local/bin/composer"
+  args:
+    creates: "/usr/local/bin/composer"
