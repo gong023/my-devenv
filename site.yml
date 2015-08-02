@@ -27,7 +27,7 @@
     - azmelanar.python
     - genzouw.vim7_4
     - jfredee.galaxy-rbenv-ruby
-    - php-nginx
+    - { role: php-nginx, home: '/home/vagrant' }
     - xcezx.mysql
     - joshualund.golang
     - geerlingguy.nodejs

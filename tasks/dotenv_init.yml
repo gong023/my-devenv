@@ -9,9 +9,10 @@
     - { dest: '.gitmodules', src: '.gitmodules' }
     - { dest: '.tmux.conf', src: '.tmux.conf' }
     - { dest: '.vimrc', src: '.vimrc' }
-    - { dest: '.zshrc', src: '.zshrc_vagrant' }
     - { dest: '.vim', src: '.vim' }
     - { dest: '.oh-my-zsh', src: 'oh-my-zsh' }
+
+- copy: src="../files/zshrc" dest={{ home }}/.zshrc
 
 - command: make
   args:
