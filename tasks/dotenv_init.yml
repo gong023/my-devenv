@@ -4,7 +4,6 @@
   file: src={{ home }}/dotfiles/{{ item.src }} dest={{ home }}/{{ item.dest }} state=link
   with_items:
     - { dest: '.gemrc', src: '.gemrc' }
-    - { dest: '.gitconfig', src: '.gitconfig' }
     - { dest: '.gitignore', src: '.gitignore' }
     - { dest: '.gitmodules', src: '.gitmodules' }
     - { dest: '.tmux.conf', src: '.tmux.conf' }
@@ -13,6 +12,8 @@
     - { dest: '.oh-my-zsh', src: 'oh-my-zsh' }
 
 - copy: src="../files/zshrc" dest={{ home }}/.zshrc
+
+- copy: src="../files/gitconfig" dest={{ home }}/.gitconfig
 
 - command: make
   args:
