@@ -22,12 +22,14 @@
 
     - include: tasks/install_rust.yml
 
+    - include: tasks/install_gotools.yml
+
   roles:
     - common
     - azmelanar.python
     - genzouw.vim7_4
     - jfredee.galaxy-rbenv-ruby
-    - { role: php-nginx, home: '/home/vagrant' }
+    - { role: php-nginx, home: '/home/vagrant' , login_user: 'vagrant' }
     - xcezx.mysql
     - joshualund.golang
     - geerlingguy.nodejs

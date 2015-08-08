@@ -51,6 +51,14 @@
   args:
     creates: "/usr/local/bin/composer"
 
-- command: "composer global require 'phpunit/phpunit=4.7.*'"
+- command: "/usr/local/bin/composer global require 'phpunit/phpunit=4.7.*'"
   args:
     creates: "{{ home }}/.composer/vendor/bin/phpunit"
+  sudo: yes
+  sudo_user: "{{ login_user }}"
+
+- command: "/usr/local/bin/composer global require 'fabpot/php-cs-fixer'"
+  args:
+    creates: "{{ home }}/.composer/vendor/bin/php-cs-fixer"
+  sudo: yes
+  sudo_user: "{{ login_user }}"

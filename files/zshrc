@@ -16,6 +16,7 @@ setopt list_types
 
 alias vi="vim"
 alias g="git"
+alias p='cd $(ghq list -p | peco)'
 alias ls='ls -v -F -G'
 alias ll='ls -la'
 alias cp="cp -i"

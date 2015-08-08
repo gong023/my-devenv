@@ -1,0 +1,23 @@
+- command: "/usr/local/go/bin/go get github.com/motemen/ghq"
+  args:
+    creates: "{{ home }}/go/bin/ghq"
+  sudo: yes
+  sudo_user: "{{ login_user }}"
+  environment:
+    GOPATH: "{{ home }}/go"
+
+- command: "/usr/local/go/bin/go get github.com/peco/peco/cmd/peco"
+  args:
+    creates: "{{ home }}/go/bin/peco"
+  sudo: yes
+  sudo_user: "{{ login_user }}"
+  environment:
+    GOPATH: "{{ home }}/go"
+
+- command: "/usr/local/go/bin/go get github.com/naoty/todo"
+  args:
+    creates: "{{ home }}/go/bin/todo"
+  sudo: yes
+  sudo_user: "{{ login_user }}"
+  environment:
+    GOPATH: "{{ home }}/go"
