@@ -15,6 +15,7 @@ setopt list_packed
 setopt list_types
 
 alias vi="vim"
+alias g="git"
 alias ls='ls -v -F -G'
 alias ll='ls -la'
 alias cp="cp -i"

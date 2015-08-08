@@ -25,6 +25,10 @@
 
 - copy: src="../files/www.conf" dest=/etc/php-fpm.d/www.conf
 
+- copy: src="../files/php.ini" dest="/etc/php.ini"
+
+- copy: src="../files/xdebug.ini" dest="/etc/php.d/xdebug.ini"
+
 - service: name="php-fpm" state=restarted
 
 - service: name=nginx state=restarted
