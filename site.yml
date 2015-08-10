@@ -12,7 +12,21 @@
     - name: 便利ツールのインストール
       yum: name={{ item }}
       with_items:
-        - [zsh, tree, memcached, gcc, wget, tar, patch, gcc-c++, bison, tmux]
+        - [zsh, tree, memcached, gcc, wget, tar, patch, gcc-c++, bison, tmux, jq, python-pip]
+
+    - gem: name={{ item }}
+      with_items:
+        - [pry, rspec]
+      sudo: yes
+      sudo_user: "{{ login_user }}"
+
+    - pip: name={{ item }}
+      with_items:
+        - [setuptools, httpie]
+
+    - npm: name={{ item }} global=yes
+      with_items:
+        - [coffee]
 
     - name: デフォルトをzshに
       user: name={{ login_user }} shell=/bin/zsh
@@ -26,7 +40,7 @@
 
   roles:
     - common
-    - azmelanar.python
+    - azmelanar.epel
     - genzouw.vim7_4
     - jfredee.galaxy-rbenv-ruby
     - { role: php-nginx, home: '/home/vagrant' , login_user: 'vagrant' }
