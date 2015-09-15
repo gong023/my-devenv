@@ -20,6 +20,7 @@
     - php56w-pdo
     - php56w-pecl-xdebug
     - php56w-phpdbg
+    - php56w-mbstring
 
 - file: path="/var/log/php-fpm/error.log" state=touch mode=0777
 

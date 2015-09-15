@@ -22,7 +22,7 @@
 
     - pip: name={{ item }}
       with_items:
-        - [setuptools, httpie]
+        - [setuptools, httpie, supervisor, mycli]
 
     - npm: name={{ item }} global=yes
       with_items:
@@ -37,6 +37,8 @@
     - include: tasks/install_rust.yml
 
     - include: tasks/install_gotools.yml
+
+    - include: tasks/install_java.yml
 
   roles:
     - common
