@@ -1,3 +1,11 @@
 - yum: name={{ item }}
   with_items:
     - ['java-1.8.0-openjdk-devel', 'java-1.8.0-openjdk']
+
+- get_url: url="http://downloads.typesafe.com/play/2.2.6/play-2.2.6.zip" dest="/tmp/" validate_certs=no
+
+- unarchive: src="/tmp/play-2.2.6.zip" dest="/tmp/" copy=no
+
+- command: "mv /tmp/play-2.2.6/play /usr/bin/"
+  args:
+    creates: "/usr/bin/play"
