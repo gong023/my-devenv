@@ -63,3 +63,9 @@
     creates: "{{ home }}/.composer/vendor/bin/php-cs-fixer"
   sudo: yes
   sudo_user: "{{ login_user }}"
+
+- command: "/usr/local/bin/composer global require 'hirak/prestissimo'"
+  args:
+    creates: "{{ home }}/.composer/vendor/hirak/prestissimo"
+  sudo: yes
+  sudo_user: "{{ login_user }}"
